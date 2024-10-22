@@ -24,28 +24,44 @@ function playGame() {
   function playRound(computerChoice, humanChoice) {
     let computerCap = computerChoice.charAt(0).toUpperCase() + computerChoice.slice(1);
     let humanCap = humanChoice.charAt(0).toUpperCase() + humanChoice.slice(1);
+
+    const results = document.querySelector("#results");
+    const score = document.querySelector("#score");
+    const winner = document.querySelector("#winner");
+
     if (humanChoice === "rock" && computerChoice === "scissors") {
-      console.log("You win! Rock beats Scissors");
+      results.textContent = "You win! Rock beats Scissors";
       humanScore++;
     } else if (humanChoice === "paper" && computerChoice === "rock") {
-      console.log("You win! Paper beats Rock");
+      results.textContent = "You win! Paper beats Rock";
       humanScore++;
     } else if (humanChoice === "scissors" && computerChoice === "paper") {
-      console.log("You win! Scissors beats Paper");
+      results.textContent = "You win! Scissors beats Paper";
       humanScore++;
     } else if (humanChoice === computerChoice) {
-      console.log("Tie!")
+      results.textContent = "Tie!";
     } else {
-      console.log("You lose! " + computerCap + " beats " + humanCap);
+      results.textContent = "You lose! " + computerCap + " beats " + humanCap;
       computerScore++;
+    }
+
+    score.textContent = "You: " + humanScore + " | Computer: " + computerScore;
+
+    if (humanScore === 5) {
+      winner.textContent = "You win!"
+    }
+    if (computerScore === 5) {
+      winner.textContent = "Computer wins :("
     }
   };
 
-  for (let i = 0; i < 5; i++) {
-    let computerChoice = getComputerChoice();
-    let humanChoice = getHumanChoice();
-    playRound(computerChoice, humanChoice);
-  }
+  const btns = document.querySelectorAll("button");
+
+  btns.forEach((element) => {
+    element.addEventListener("click", (e) => {
+      playRound(getComputerChoice(), e.target.value)
+    })
+  })
 
   console.log("You: " + humanScore);
   console.log("Computer: " + computerScore);
